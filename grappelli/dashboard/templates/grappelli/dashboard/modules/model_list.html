@@ -10,6 +10,9 @@
                     {% if child.admin_url %}<li class="grp-change-link"><a href="{{ child.admin_url }}">{% trans "Change" %}</a></li>{% endif %}
                 </ul>
             {% endif %}
+            {% if child.desc %}
+              <div>{{ child.desc }}</div>
+            {% endif %}
         </div>
     {% endfor %}
 {% endblock %}

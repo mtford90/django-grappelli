@@ -97,6 +97,7 @@ class Dashboard(object):
     template = 'grappelli/dashboard/dashboard.html'
     columns = 2
     children = None
+    app_indexes = {}
 
     def __init__(self, **kwargs):
         for key in kwargs:
@@ -119,6 +120,10 @@ class Dashboard(object):
         Internal method used to distinguish different dashboards in js code.
         """
         return 'grp-dashboard'
+
+    def register_app_index(self, app_name, child):
+      self.app_indexes[app_name] = child
+
 
 
 class DefaultIndexDashboard(Dashboard):

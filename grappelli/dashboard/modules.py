@@ -274,6 +274,8 @@ class ModelList(DashboardModule, AppListElementMixin):
         for model, perms in items:
             model_dict = {}
             model_dict['title'] = capfirst(model._meta.verbose_name_plural)
+            if hasattr(model, 'custom_admin_description'):
+              model_dict['desc'] = capfirst(model.custom_admin_description)
             if perms['change']:
                 model_dict['admin_url'] = self._get_admin_change_url(model, context)
             if perms['add']:

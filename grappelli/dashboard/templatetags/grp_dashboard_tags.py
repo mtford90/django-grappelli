@@ -48,6 +48,17 @@ def grp_render_dashboard(context, location='index', dashboard=None):
 grp_render_dashboard = tag_func(grp_render_dashboard)
 
 
+def grp_render_module(context, app_name):
+  context.update({
+    'hide_module_title': True
+  })
+  dashboard = get_index_dashboard(context)
+  dashboard.init_with_context(context)
+  module = dashboard.app_indexes[app_name]
+  return grp_render_dashboard_module(context, module)
+
+grp_render_module = tag_func(grp_render_module)
+
 def grp_render_dashboard_module(context, module, index=None, subindex=None):
     """
     Template tag that renders a given dashboard module, it takes a
@@ -65,3 +76,5 @@ def grp_render_dashboard_module(context, module, index=None, subindex=None):
     })
     return context
 grp_render_dashboard_module = tag_func(grp_render_dashboard_module)
+
+
