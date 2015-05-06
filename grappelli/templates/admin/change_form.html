@@ -158,7 +158,9 @@
 {% block object-tools %}
   {% if change %}
     {% if not is_popup %}
+
       <ul class="grp-object-tools">
+
         {% block object-tools-items %}
           {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
           <li><a href="{% add_preserved_filters history_url %}">{% trans "History" %}</a></li>
@@ -200,7 +202,7 @@
 
       <!-- Inlines -->
       {% block inline_field_sets %}
-        {% for inline_instance, inline_admin_formset in inlines %}
+        {% for inline_admin_formset in inline_admin_formsets %}
           {% include inline_admin_formset.opts.template %}
         {% endfor %}
       {% endblock %}
