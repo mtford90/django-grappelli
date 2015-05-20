@@ -5,6 +5,8 @@ Module where grappelli dashboard modules classes are defined.
 """
 
 # DJANGO IMPORTS
+from django.db.models.loading import get_model
+from django.utils import importlib
 from django.utils.text import capfirst
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
@@ -263,6 +265,8 @@ class ModelList(DashboardModule, AppListElementMixin):
     def __init__(self, title=None, models=None, exclude=None, **kwargs):
         self.models = list(models or [])
         self.exclude = list(exclude or [])
+        show_all = kwargs.get('show_all', ())
+        self.show_all = [get_model(*x.split('.', 1)) for x in show_all]
         super(ModelList, self).__init__(title, **kwargs)
 
     def init_with_context(self, context):
@@ -272,12 +276,16 @@ class ModelList(DashboardModule, AppListElementMixin):
         if not items:
             return
         for model, perms in items:
+            print('model', model)
             model_dict = {}
             model_dict['title'] = capfirst(model._meta.verbose_name_plural)
             if hasattr(model, 'custom_admin_description'):
-              model_dict['desc'] = capfirst(model.custom_admin_description)
+                model_dict['desc'] = capfirst(model.custom_admin_description)
             if perms['change']:
-                model_dict['admin_url'] = self._get_admin_change_url(model, context)
+                admin_url = self._get_admin_change_url(model, context)
+                if model in self.show_all:
+                    admin_url += '?all='
+                model_dict['admin_url'] = admin_url
             if perms['add']:
                 model_dict['add_url'] = self._get_admin_add_url(model, context)
             self.children.append(model_dict)
@@ -362,6 +370,7 @@ class Feed(DashboardModule):
         if self._initialized:
             return
         import datetime
+
         if self.feed_url is None:
             raise ValueError('You must provide a valid feed URL')
         try:

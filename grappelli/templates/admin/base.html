@@ -102,6 +102,9 @@
                           <li><a href="{% url 'admin:password_change' %}"
                                  class="grp-change-password">{% trans 'Change password' %}</a></li>
                         {% endif %}
+                        <!-- Settings -->
+                       <li><a href="{% url 'admin:farm_team_tmfuser_change' request.user.id %}"
+                         class="grp-change-password">{% trans 'Settings' %}</a></li>
                         <!-- Logout -->
                         <li><a href="{% url 'admin:logout' %}" class="grp-logout">{% trans 'Log out' %}</a></li>
                         <!-- Switch -->
