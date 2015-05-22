@@ -276,7 +276,6 @@ class ModelList(DashboardModule, AppListElementMixin):
         if not items:
             return
         for model, perms in items:
-            print('model', model)
             model_dict = {}
             model_dict['title'] = capfirst(model._meta.verbose_name_plural)
             if hasattr(model, 'custom_admin_description'):
